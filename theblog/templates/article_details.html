@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+{{ post.title_tag }}
+{% endblock %}
+
+{% block content %}
+
+<h1>{{ post.title }}-{{ post.author.id }}</h1>
+<small>By: {{ post.author.first_name }} {{post.author.last_name }}</small><br/>
+
+    {% if user.is_authenticated %}
+        {% if user.id == post.author.id %}
+         <a href="{% url "delete_post" post.pk %}"
+         >Delete</a> </small>
+        {% endif %}
+    {% endif %}
+    <hr>
+<br/>
+    {%  if post.header_image %}
+   <img src="{{ post.header_image.url }}" class="rounded mx-auto d-block" width=500 height=400 alt="posted pic">
+    {% endif %}
+    <br/><br/>
+{{ post.body }}
+
+<br><br/>
+<a href="{%  url 'home' %}" class="btn btn-secondary">Back</a>
+
+<br/><br/>
+    <div class="card mb-3" >
+  <div class="row g-0">
+    <div class="col-md-4">
+
+        {% if post.author.profile.profile_pic %}
+      <img src="{{ post.author.profile.profile_pic.url }}" class="card-img" width=200 height=200 alt="profile pic">
+        {% else %}
+         <img src="{%static "theblog/images/Default_profile.jpg"  %}" class="card-img" width=200 height=200 alt="profile pic">
+
+        {% endif %}
+    </div>
+    <div class="col-md-10">
+      <div class="card-body">
+        <h5 class="card-title">Username: {{ post.author.first_name }}
+                            {{post.author.last_name }}
+        </h5>
+<p class="small text-muted">
+    <a href="{% url "show_profile_page" post.author.profile.id %}">Profile Page</a>
+
+</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

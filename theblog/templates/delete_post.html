@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{%  block title %} Delete Blog Post   {% endblock %}
+
+{% block content %}
+
+
+
+{% if user.is_authenticated %}
+    {% if user.id == post.author.id %}
+
+    <h1> Delete Post</h1>
+    <br/><br/>
+    <h3>Delete: {{ post.title }}
+
+        {% if post.header_image.url != null %}
+        <br><img src="{{ post.header_image.url }}" class="rounded mx-auto d-block" width=500 height=400 alt="posted pic" ></h3>
+            {% endif %}
+
+    {% endif%}
+
+      <div class="mb-3">
+        <form method="POST">
+            {% csrf_token %}
+            <strong>are you sure?</strong> <br/><br/>
+            <button class="btn btn-secondary">Delete Post</button>
+    </form>
+      </div>
+        {% else %}
+        You're not allowed here!
+        {% endif %}
+    {% endblock %}

@@ -25,6 +25,8 @@ class PostForm(forms.ModelForm):
 
         # extract the username and text field from the data
         header_image = self.cleaned_data.get('header_image')
+        author =self.cleaned_data.get("author")
+        print(author)
         # the dhash checks the images by calculating the hamming distance
         if not (dhash.check_perceptual(header_image)):
             self._errors['header_image'] = self.error_class([

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import ListView,DetailView,CreateView,DeleteView
+from django.views.generic import ListView,DetailView,CreateView,DeleteView,FormView
 from django.urls import reverse_lazy
 
 # Create your views here.
@@ -22,15 +22,30 @@ class ArticleDetailView(DetailView):
     template_name = 'article_details.html'
 
 
-class AddPostView(CreateView):
+# class AddPostView(CreateView):
+#     model = Post
+#     form_class = PostForm
+#
+#     template_name = 'add_post.html'
+#
+#     # fields = '__all__'
+#     # fields=("title","body")
+
+
+class AddPostView(FormView):
     model = Post
     form_class = PostForm
 
     template_name = 'add_post.html'
-
+    success_url = reverse_lazy('home')
     # fields = '__all__'
     # fields=("title","body")
-
+    def form_valid(self, form):
+        # This method is called when valid form data has been POSTed.
+        # It should return an HttpResponse.
+        form.save()
+        print("hello trigger ")
+        return super().form_valid(form)
 
 class DeletePostView(DeleteView):
     model = Post

@@ -130,3 +130,4 @@ class dhash(object):
                 print("Different Image")
 
 
+        return True

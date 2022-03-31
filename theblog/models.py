@@ -21,8 +21,18 @@ class Post(models.Model):
 
 class Profile(models.Model):
     user=models.OneToOneField(User,null=True,on_delete=models.CASCADE)
-    profile_pic = models.ImageField(null=True, blank=True, upload_to="images/profile/")
+    profile_pic = models.ImageField(null=True,upload_to="images/profile/")
+    clear = models.BooleanField(default=False)
 
+    def set_default(self):
+        print(self.profile_pic)
+        if(self.profile_pic !="static/Default_profile.jpg"):
+            self.profile_pic.delete(save=True)
+        print(self.profile_pic)
+        self.profile_pic="static/Default_profile.jpg"
+        self.save()
+        print(self.profile_pic)
+        print(self.profile_pic.url)
     def __str__(self):
         return str(self.user)
 

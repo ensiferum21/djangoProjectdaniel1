@@ -8,11 +8,21 @@ from theblog.models import Profile
 # Create your views here.
 
 
+
 class EditProfilePageView(generic.UpdateView):
+    form_class = ProfilePageForm
+
     model = Profile
+
     template_name = "registration/edit_profile_page.html"
-    fields = ["profile_pic"]
+    # fields = ["profile_pic"]
     success_url = reverse_lazy('home')
+
+    def form_valid(self, form):
+        # This method is called when valid form data has been POSTed.
+        # It should return an HttpResponse.
+        form.save()
+        return super().form_valid(form)
 
 
 class ShowProfilePageView(DetailView):

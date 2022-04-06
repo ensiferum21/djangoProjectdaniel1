@@ -59,14 +59,17 @@ def compare_faces(image1):
             # Save the new best face distance
             best_face_distance = face_distance
 
-    fd_array.sort()
-    threshold=fd_array[0]
+        fd_array.sort()
+        threshold=fd_array[0]
 
 
     if(threshold>0.6): # the threshold was set to 0.6 if higher its different person
         print("Different person!")
+        print("lowest face distance",threshold)
         return True
     else:
         print("Same person!!")
+        print("lowest face distance",threshold)
+
         return False
 

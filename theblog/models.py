@@ -25,14 +25,14 @@ class Profile(models.Model):
     clear = models.BooleanField(default=False)
 
     def set_default(self):
-        print(self.profile_pic)
+        #print(self.profile_pic)
         if(self.profile_pic !="static/Default_profile.jpg"):
             self.profile_pic.delete(save=True)
-        print(self.profile_pic)
+        #print(self.profile_pic)
         self.profile_pic="static/Default_profile.jpg"
         self.save()
-        print(self.profile_pic)
-        print(self.profile_pic.url)
+        #print(self.profile_pic)
+        #print(self.profile_pic.url)
     def __str__(self):
         return str(self.user)
 

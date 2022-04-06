@@ -28,7 +28,7 @@ class PostForm(forms.ModelForm):
         author =self.cleaned_data.get("author")
 
         # the dhash checks the images by calculating the hamming distance
-        if not (dhash.check_perceptual(header_image)):
+        if not (dhash.check_perceptual(header_image)): # If not True(means same pic) the error is thrown and the function stops
             self._errors['header_image'] = self.error_class([
                 'The picture is too similar to existing picture in the website'])
 

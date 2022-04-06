@@ -33,7 +33,7 @@ class ProfilePageForm(forms.ModelForm):
                     for file in Profile.objects.all():
                         if user == file.user:
                             os.remove(os.path.join(settings.BASE_DIR,file.profile_pic.url[1:len(file.profile_pic.url.replace("/","\\"))]))
-                            file.profile_pic="static/theblog/images/Default_profile.jpg"
+                            file.set_default()
 
                 except:
                     self.errors['profile_pic']=self.error_class(["Error Occured"])
@@ -41,33 +41,30 @@ class ProfilePageForm(forms.ModelForm):
         if profile_pic != False:
             for file in Profile.objects.all():
                 if user==file.user:
-                    # if file.profile_pic == profile_pic:
-                    #     self._errors['profile_pic'] = self.error_class([
-                    #         "You're not uploading a valid picture!"])
-                    #     break
-                    if(self.cleaned_data.get("clear") == True and file.profile_pic == profile_pic):
+                    if file.profile_pic == profile_pic:
+                        if(self.cleaned_data.get("clear") == True ):
 
-                        file.set_default()
-                        self.errors['profile_pic'] = self.error_class(["Profile picture has been cleared (pls refresh the page)"])
+                            file.set_default()
+                            self.errors['profile_pic'] = self.error_class(["Profile picture has been cleared (pls refresh the page)"])
 
-                        break
+                            break
 
+                        else:
+                            self._errors['profile_pic'] = self.error_class([
+                            "You're uploading the same picture!"])
+                            break
+                    else:
 
+                        comparison=compare_faces(profile_pic)
 
-                    # try:
-                    #     os.remove(os.path.join(settings.BASE_DIR,file.profile_pic.url[1:len(file.profile_pic.url.replace("/","\\"))]))
-                    #
-                    # except ValueError:
-                    #     0
+                        if (comparison==IndexError):
+                            self._errors['profile_pic']=self.error_class(["Please upload picture of a face!"])
+                            break
 
+                        elif not (comparison):
 
-                    if (compare_faces(profile_pic)==IndexError):
-                        self._errors['profile_pic']=self.error_class(["Please upload picture of a face!"])
-                        break
-
-                    elif not (compare_faces(profile_pic)):
-                        self._errors['profile_pic'] = self.error_class([
-                        'The profile picture is too similar to existing profile picture in the website'])
+                            self._errors['profile_pic'] = self.error_class([
+                            'The profile picture is too similar to existing profile picture in the website'])
 
 
             # return any errors if found

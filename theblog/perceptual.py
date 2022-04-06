@@ -113,9 +113,9 @@ class dhash(object):
 
         image_directory_path=os.path.join(settings.MEDIA_ROOT,"images")
         for filename in os.listdir(image_directory_path):
-            if os.path.isdir(image_directory_path+"\\"+filename):
+            if os.path.isdir(image_directory_path+"\\"+filename): #skips the profile directory which was inside media/images folder
                 continue
-            print(filename)
+            #print(filename)
             image2 = Image.open(image_directory_path+"\\"+filename)
             hash2 = dhash.calculate_hash(image2)
 
@@ -123,7 +123,7 @@ class dhash(object):
 
             print("the hamming distance between images :", hamming_distance)
 
-            if hamming_distance < 20:  # 10 was arbitrary number set by me
+            if hamming_distance < 20:  # number set by me
                 print("Similar Image")
                 return False
             else:
